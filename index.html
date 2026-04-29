@@ -509,6 +509,7 @@
   let entries = JSON.parse(localStorage.getItem("futter_entries") || "[]");
 
   const PASSWORD = "Agrar2024";
+  const ADMIN_PASSWORD = "R@us";
 
   function doLogin() {
     const name = document.getElementById("inp-name").value.trim();
@@ -649,7 +650,13 @@
   }
 
   function clearAll() {
-    if (!confirm("Wirklich alle " + entries.length + " Einträge löschen?")) return;
+    const pw = prompt("Bitte Admin-Passwort eingeben, um alle Einträge zu löschen:");
+    if (pw === null) return;
+    if (pw !== ADMIN_PASSWORD) {
+      alert("Falsches Passwort – Einträge wurden nicht gelöscht.");
+      return;
+    }
+    if (!confirm("Wirklich alle " + entries.length + " Einträge unwiderruflich löschen?")) return;
     entries = [];
     localStorage.removeItem("futter_entries");
     renderTable();
